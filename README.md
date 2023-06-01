@@ -1,4 +1,4 @@
-#Note:
+# Note:
 
 All codes are located in App.js
 simply comment in/out the line counter={counter} within <MemoizedComponent /> to see differences
