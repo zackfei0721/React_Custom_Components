@@ -2,7 +2,11 @@ import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
 
-//Defining a custom React.memo()
+// Defining a custom React.memo()
+// Returns a version of the given Component that memorizes its result.
+// If the props to the Component haven't changed since the last render, 
+// the memorized result will be returned.
+// Otherwise, a new result is computed and returned.
 function customMemo(Component) {
   let lastProps = null;
   let lastResult = null;
@@ -19,15 +23,20 @@ function customMemo(Component) {
   };
 }
 
-//Defining a custom PureComponent class
+// Defining a custom PureComponent class
+// PureComponent is a component that only re-renders when its props have changed.
+// This custom implementation uses the shallowEqual function to check if 
+// the props have changed.
 class CustomPureComponent extends React.Component {
   shouldComponentUpdate(nextProps){
     return !shallowEqual(this.props, nextProps);
   }
 }
 
-//Defining a custom Shallow Compare function
-//to check if the two compared objects are shallowly equal
+// Defining a custom Shallow Compare function
+// to check if the two compared objects are shallowly equal
+// Two objects are considered shallowly equal 
+// if they have the same set of keys and each key has the same value in both objects.
 function shallowEqual(obj1 = {}, obj2 = {}) {
   const keys1 = Object.keys(obj1);
   const keys2 = Object.keys(obj2);
@@ -41,17 +50,18 @@ function shallowEqual(obj1 = {}, obj2 = {}) {
       return false;
     }
   }
-  return true;
-}
+  return true;  
+}   
 
-//Creating a regular component
-const MyComponent = ({text}) => <h1>{text}</h1>
-//Creating a custom memoized component using custom memo()
+// Creating a regular component with a changable counter
+const MyComponent = ({text, counter}) => <h1>{text}: {counter}</h1>
+// Creating a custom memoized component using custom memo()
 const MemoizedComponent = customMemo(MyComponent);
-//Creating a pure component using customPureComponent
+// Creating a component that extends from CustomPureComponent with a changable counter,
+// it should only re-render when its props change.
 class CustomPureCom extends CustomPureComponent {
   render() {
-    return <h1>{this.props.text}</h1>;
+    return <h1>{this.props.text}: {this.props.counter}</h1>;
   }
 }
 
@@ -60,10 +70,10 @@ function App() {
 
   return (
     <div>
-      <button onClick={() => setCounter(counter + 1)}>Counter: {counter}</button>
-      <MyComponent text="This is a regular component" />
-      <MemoizedComponent text="This is a memo component" />
-      <CustomPureCom text="This is a custom PureComponent" />
+      <button onClick={() => setCounter(counter + 1)}>+1</button>
+      <MyComponent text="This is a regular component, counter" counter={counter} />
+      <MemoizedComponent text="This is a memo component" /*counter={counter}*/ /> 
+      <CustomPureCom text="This is a custom PureComponent, counter" counter={counter} />
     </div>
   );
 }
