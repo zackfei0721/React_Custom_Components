@@ -1,3 +1,13 @@
+#Note:
+
+All codes are located in App.js
+simply comment in/out the line counter={counter} within <MemoizedComponent /> to see differences
+between memoized component by memo and other components. When counter is commented out and
+the +1 button is clicked, check the console, and only Mycomponent and CustomPureCom will update their
+props, but not memo as the counter prop was not passed to it, so it will not update. 
+Vice versa for the condition <MemoizedComponent text="This is a memo component" counter={counter} />,
+as the counter prop was passed to it
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
